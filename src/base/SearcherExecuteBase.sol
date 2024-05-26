@@ -28,7 +28,7 @@ abstract contract SearcherExecuteBase is ISearcherExecute, ISearcherExecuteBase,
     uint256 constant PERCENT_TO_BPS = 100;
     uint256 constant GAS_BUFFER = 30_000;
     uint256 constant TRANSFER_AMOUNT = 100_000;
-    address constant REGISTRY_LOCATION = address(0x23e887a11D9aFf21691704dEd79b332Fb8BB7e9D);
+    address constant REGISTRY_LOCATION = address(0x9C8Def24293fb1606CA6007d1492902CCe07fDC7);
     
     modifier onlyAfterExecuteDelay() {
         if (block.timestamp < getRecheckAfter()) {
@@ -50,7 +50,7 @@ abstract contract SearcherExecuteBase is ISearcherExecute, ISearcherExecuteBase,
             revert NotReadyToExecute();
         }
         _execute();
-        uint256 gasUsed = (gasleft() - startGas) + GAS_BUFFER + TRANSFER_AMOUNT;
+        uint256 gasUsed = (startGas - gasleft()) + GAS_BUFFER + TRANSFER_AMOUNT;
 
         // Ignore success, if this fails the execute happens we do not mind.
         address(msg.sender).call{value: gasUsed * tx.gasprice * (10_000 + storedData.rewardBps) / 10_000}('');
@@ -109,9 +109,10 @@ abstract contract SearcherExecuteBase is ISearcherExecute, ISearcherExecuteBase,
     }
 
     function initialize(uint256 recheckAfter, uint256 rewardBps) internal {
-        updateNewExecution(recheckAfter, rewardBps);
+        uint256 recheckTimestamp = recheckAfter + block.timestamp;
+        updateNewExecution(recheckTimestamp, rewardBps);
         if (address(REGISTRY_LOCATION).code.length > 0) {
-            ISearcherExecuteRegistry(REGISTRY_LOCATION).register(recheckAfter, rewardBps);
+            ISearcherExecuteRegistry(REGISTRY_LOCATION).register(recheckTimestamp, rewardBps);
         }
     }
 

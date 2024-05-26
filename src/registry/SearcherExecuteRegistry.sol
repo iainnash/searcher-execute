@@ -11,7 +11,7 @@ contract SearcherExecuteRegistry is ISearcherExecuteRegistry {
         return "Searcher Execute Registry";
     }
     function register(uint256 recheckAfter, uint256 rewardBps) external {
-        if (IERC165(msg.sender).supportsInterface(type(ISearcherExecute).interfaceId)) {
+        if (!IERC165(msg.sender).supportsInterface(type(ISearcherExecute).interfaceId)) {
             revert InterfaceNotSupported();
         }
         emit SearcherExecuteRegistered(msg.sender, recheckAfter, rewardBps);
