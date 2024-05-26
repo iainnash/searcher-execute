@@ -11,6 +11,7 @@ contract DeployRegistry is Script {
 
     function run() public {
         vm.broadcast();
-        ImmutableCreate2FactoryUtils.safeCreate2OrGetExisting(bytes32(0), type(SearcherExecuteRegistry).creationCode);
+        address value = ImmutableCreate2FactoryUtils.safeCreate2OrGetExisting(bytes32(0), type(SearcherExecuteRegistry).creationCode);
+        console.log(value);
     }
 }

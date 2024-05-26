@@ -5,8 +5,13 @@ Searcher execute allows _any_ searcher to execute desired tasks onchain.
 While users need to initialize transactions, this library and standard is for a decentralized searcher type execution of desired actions with a small expectation of compensation beyond the price of gas configurable by the user.
 
 
+
+
 ## Example runner address:
 https://sepolia.etherscan.io/address/0xA5AB6380D1DBEa88683A464377ba9DEEC53D83Bc
+
+## Registry address:
+https://sepolia.etherscan.io/address/0x23e887a11D9aFf21691704dEd79b332Fb8BB7e9D
 
 ### Overall Design
 
