@@ -3,16 +3,16 @@ pragma solidity 0.8.20;
 
 import {SearcherExecuteBaseConstructor} from "../base/SearcherExecuteBaseConstructor.sol";
 
-contract SearcherExecuteBase is SearcherExecuteBaseConstructor {
+contract WithdrawCron is SearcherExecuteBaseConstructor {
     address targetNFT;
     uint256 targetNFTId;
-    event DayClock();
+    event FiveMinClock();
 
-    constructor() SearcherExecuteBaseConstructor(block.timestamp + 1 days) {
+    constructor() SearcherExecuteBaseConstructor(block.timestamp + 60 * 5) {
     }
 
     function _execute() internal override onlyAfterExecuteDelay {
-        updateNewExecutionWithDelay(block.timestamp + 1 days);
-        emit DayClock();
+        updateNewExecutionWithDelay(block.timestamp + 60 * 6);
+        emit FiveMinClock();
     }
 }

@@ -7,7 +7,7 @@ interface IERC721Burn {
     function burn(uint256 tokenId) external;
 }
 
-contract SearcherExecuteBase is SearcherExecuteBaseConstructor {
+contract NFTBurnTime is SearcherExecuteBaseConstructor {
     address targetNFT;
     uint256 targetNFTId;
 
