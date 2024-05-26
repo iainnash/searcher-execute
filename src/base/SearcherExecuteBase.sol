@@ -28,7 +28,7 @@ abstract contract SearcherExecuteBase is ISearcherExecute, ISearcherExecuteBase,
     uint256 constant PERCENT_TO_BPS = 100;
     uint256 constant GAS_BUFFER = 30_000;
     uint256 constant TRANSFER_AMOUNT = 100_000;
-    address constant REGISTRY_LOCATION = address(0x0);
+    address constant REGISTRY_LOCATION = address(0x23e887a11d9aff21691704ded79b332fb8bb7e9d);
     
     modifier onlyAfterExecuteDelay() {
         if (block.timestamp < getRecheckAfter()) {
