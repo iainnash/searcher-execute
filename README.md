@@ -1,66 +1,40 @@
-## Foundry
+## Searcher Execute
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+Searcher execute allows _any_ searcher to execute desired tasks onchain.
 
-Foundry consists of:
+While users need to initialize transactions, this library and standard is for a decentralized searcher type execution of desired actions with a small expectation of compensation beyond the price of gas configurable by the user.
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
 
-## Documentation
+## Registry address:
+https://sepolia.etherscan.io/address/0x23e887a11d9aff21691704ded79b332fb8bb7e9d
 
-https://book.getfoundry.sh/
+(Same on every deployed chain using immutablecreate2factory)
 
-## Usage
+### Overall Design
 
-### Build
-
-```shell
-$ forge build
+```sol
+interface ISearcherExecute {
+    event EventRewardNotice(uint256 recheckAfter);
+    function execute() external;
+}
 ```
 
-### Test
+### The searcher execute
 
-```shell
-$ forge test
+### Optional Searcher Execute Registry
+
+```sol
+interface ISearcherExecuteRegistry {
+    event SearcherExecuteRegistered(address sender, uint256 recheckAfter, uint256 rewardBps);
+    error InterfaceNotSupported();
+    function register(uint256 recheckAfter, uint256 rewardBps) external;
+}
 ```
 
-### Format
+The idea is that we can meter the gas required and return double the gas used to fund a searcher to execute a type of action we want.
 
-```shell
-$ forge fmt
-```
+Searchers can either utilize the requested timestamps for actions or if the timestamp is shown as zero, simulate all functions shown in the registry in an expectation of profit.
 
-### Gas Snapshots
+Users of the protocol do not need to pick one provider but can just change parameters or scripts if operating conditions change and just need to fund the contract to pay the searchers for their execution.
 
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+The idea is this standard is searcher and agent agnostic and released as a hyperstructure solidity SDK.
